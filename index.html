@@ -4,64 +4,55 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>COMPARIX | Compare preços na Shopee</title>
-  <meta name="description" content="Compare preços, avaliações e produtos mais vendidos na Shopee. Encontre a melhor oferta rapidamente." />
+  <meta name="description" content="Compare preços na Shopee com filtros oficiais. Encontre as melhores ofertas de forma rápida e segura." />
 
   <style>
     * { box-sizing: border-box; font-family: Arial, Helvetica, sans-serif; }
-    body { margin: 0; background: #f3f4f6; color: #111827; }
-    header { background: #1f2933; padding: 20px; text-align: center; }
-    header h1 { color: #3b82f6; margin: 0; font-size: 32px; }
-    header p { color: #e5e7eb; margin-top: 8px; }
+    body { margin: 0; background: #f5f5f5; color: #222; }
 
-    .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+    header { background: #ee4d2d; padding: 15px 20px; }
+    header h1 { color: #fff; margin: 0; font-size: 26px; }
 
-    .search-box { display: flex; gap: 10px; margin-bottom: 15px; }
-    .search-box input { flex: 1; padding: 15px; font-size: 16px; border-radius: 8px; border: 1px solid #d1d5db; }
-    .search-box button { padding: 15px 25px; border-radius: 8px; border: none; background: #3b82f6; color: white; font-size: 16px; cursor: pointer; }
-    .search-box button:hover { background: #2563eb; }
+    .search-bar { max-width: 1000px; margin: 20px auto; padding: 0 20px; display: flex; gap: 10px; }
+    .search-bar input { flex: 1; padding: 15px; font-size: 16px; border-radius: 4px; border: 1px solid #ccc; }
+    .search-bar button { padding: 15px 25px; border: none; background: #ee4d2d; color: #fff; font-size: 16px; cursor: pointer; border-radius: 4px; }
 
-    .hint { font-size: 14px; color: #6b7280; margin-bottom: 25px; }
+    .categories { max-width: 1000px; margin: 10px auto 30px; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; }
+    .cat { background: #fff; padding: 20px; text-align: center; border-radius: 8px; cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,.1); }
+    .cat:hover { transform: translateY(-2px); }
 
-    .filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
-    .filters button {
-      padding: 18px;
-      border-radius: 12px;
-      border: 1px solid #d1d5db;
-      background: white;
-      cursor: pointer;
-      font-size: 15px;
-      transition: all 0.2s;
-    }
-    .filters button:hover { border-color: #3b82f6; background: #eff6ff; }
+    .filters { max-width: 1000px; margin: 0 auto 30px; padding: 0 20px; display: flex; gap: 10px; flex-wrap: wrap; }
+    .filters button { padding: 10px 15px; border-radius: 20px; border: 1px solid #ddd; background: #fff; cursor: pointer; }
+    .filters button:hover { border-color: #ee4d2d; color: #ee4d2d; }
 
-    footer { margin-top: 60px; padding: 20px; text-align: center; font-size: 13px; color: #6b7280; }
+    footer { margin-top: 60px; padding: 20px; text-align: center; font-size: 13px; color: #666; }
   </style>
 </head>
 <body>
 
 <header>
   <h1>COMPARIX</h1>
-  <p>Compare preços e encontre a melhor oferta na Shopee</p>
 </header>
 
-<div class="container">
+<div class="search-bar">
+  <input id="searchInput" type="text" placeholder="O que você está procurando hoje?" />
+  <button onclick="buscar('relevancia')">Buscar</button>
+</div>
 
-  <div class="search-box">
-    <input id="searchInput" type="text" placeholder="Digite o produto, marca ou modelo (ex: Relógio Patek Philippe)" />
-    <button onclick="buscar('padrao')">Comparar preços</button>
-  </div>
+<div class="categories">
+  <div class="cat" onclick="buscarCategoria('Relógio')">🕒 Relógios</div>
+  <div class="cat" onclick="buscarCategoria('Celular')">📱 Celulares</div>
+  <div class="cat" onclick="buscarCategoria('Fone Bluetooth')">🎧 Fones</div>
+  <div class="cat" onclick="buscarCategoria('Tênis')">👟 Tênis</div>
+  <div class="cat" onclick="buscarCategoria('Eletrodomésticos')">🍳 Eletro</div>
+</div>
 
-  <div class="hint">
-    Busca inteligente com base nos resultados mais relevantes da Shopee. Promoções e preços atualizados.
-  </div>
-
-  <div class="filters">
-    <button onclick="buscar('barato')">💰 Mais baratos</button>
-    <button onclick="buscar('avaliacao')">⭐ Melhor avaliação</button>
-    <button onclick="buscar('vendidos')">🔥 Mais vendidos</button>
-    <button onclick="buscar('custo')">⚖️ Custo-benefício</button>
-  </div>
-
+<div class="filters">
+  <button onclick="buscar('relevancia')">Relevância</button>
+  <button onclick="buscar('menor')">Menor preço</button>
+  <button onclick="buscar('maior')">Maior preço</button>
+  <button onclick="buscar('avaliacao')">Avaliação</button>
+  <button onclick="buscar('vendidos')">Mais vendidos</button>
 </div>
 
 <footer>
@@ -71,35 +62,29 @@
 <script>
   const AFILIADO = '18352050218';
 
-  function buscar(tipo) {
-    const termo = document.getElementById('searchInput').value.trim();
-    if (!termo) {
-      alert('Digite o produto que deseja comparar');
-      return;
-    }
-
+  function montarURL(termo, tipo) {
     let url = 'https://shopee.com.br/search?keyword=' + encodeURIComponent(termo);
 
     switch (tipo) {
-      case 'barato':
-        url += '&sortBy=price&order=asc';
-        break;
-      case 'avaliacao':
-        url += '&sortBy=rating';
-        break;
-      case 'vendidos':
-        url += '&sortBy=sales';
-        break;
-      case 'custo':
-        url += '&sortBy=relevancy';
-        break;
-      default:
-        url += '&sortBy=relevancy';
+      case 'menor': url += '&sortBy=price&order=asc'; break;
+      case 'maior': url += '&sortBy=price&order=desc'; break;
+      case 'avaliacao': url += '&sortBy=rating'; break;
+      case 'vendidos': url += '&sortBy=sales'; break;
+      default: url += '&sortBy=relevancy';
     }
 
-    url += '&affiliate=' + AFILIADO;
+    return url + '&affiliate=' + AFILIADO;
+  }
 
-    window.open(url, '_blank');
+  function buscar(tipo) {
+    const termo = document.getElementById('searchInput').value.trim();
+    if (!termo) return alert('Digite o que deseja buscar');
+    window.open(montarURL(termo, tipo), '_blank');
+  }
+
+  function buscarCategoria(cat) {
+    document.getElementById('searchInput').value = cat;
+    window.open(montarURL(cat, 'relevancia'), '_blank');
   }
 </script>
 
