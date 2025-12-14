@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>COMPARIX – Compare preços na Shopee</title>
+  <meta name="description" content="Compare preços, avaliações e ofertas na Shopee. Busque por produto, marca ou modelo e encontre a melhor opção." />
+
+  <style>
+    :root {
+      --bg: #1F2933;
+      --white: #ffffff;
+      --blue: #3B82F6;
+      --gray: #9CA3AF;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      max-width: 720px;
+      width: 100%;
+      padding: 32px 20px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+
+    p.subtitle {
+      color: var(--gray);
+      margin-bottom: 28px;
+      font-size: 1rem;
+    }
+
+    .search-box {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .search-box input {
+      flex: 1;
+      padding: 14px;
+      border-radius: 8px;
+      border: none;
+      font-size: 1rem;
+    }
+
+    .search-box button {
+      padding: 14px 20px;
+      border-radius: 8px;
+      border: none;
+      background: var(--blue);
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .suggestions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+
+    .suggestions button {
+      background: #2B3542;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 20px;
+      color: white;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .actions button {
+      background: #111827;
+      border: 1px solid #374151;
+      padding: 18px 10px;
+      border-radius: 12px;
+      color: white;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+
+    footer {
+      font-size: 0.75rem;
+      color: var(--gray);
+      margin-top: 20px;
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>COMPARIX</h1>
+    <p class="subtitle">Compare preços, avaliações e encontre a melhor oferta na Shopee</p>
+
+    <div class="search-box">
+      <input id="search" type="text" placeholder="Digite o produto, marca ou modelo (ex: relógio patek philippe)" />
+      <button onclick="buscar('relevancia')">Buscar</button>
+    </div>
+
+    <div class="suggestions">
+      <button onclick="setBusca('Relógio')">Relógio</button>
+      <button onclick="setBusca('Smartwatch')">Smartwatch</button>
+      <button onclick="setBusca('Fone Bluetooth')">Fone Bluetooth</button>
+      <button onclick="setBusca('Celular')">Celular</button>
+      <button onclick="setBusca('Tênis')">Tênis</button>
+    </div>
+
+    <div class="actions">
+      <button onclick="buscar('preco')">💰 Mais baratos</button>
+      <button onclick="buscar('avaliacao')">⭐ Melhor avaliação</button>
+      <button onclick="buscar('vendidos')">🔥 Mais vendidos</button>
+      <button onclick="buscar('custo')">⚖️ Custo-benefício</button>
+    </div>
+
+    <footer>
+      O COMPARIX participa do Programa de Afiliados da Shopee. Ao clicar nos links e realizar uma compra, podemos receber uma comissão, sem custo adicional para você.
+    </footer>
+  </div>
+
+  <script>
+    const AFILIADO = 18352050218;
+
+    function setBusca(valor) {
+      document.getElementById('search').value = valor;
+    }
+
+    function buscar(tipo) {
+      const termo = document.getElementById('search').value.trim();
+      if (!termo) return alert('Digite o que você deseja buscar');
+
+      let ordem = '';
+      switch (tipo) {
+        case 'preco': ordem = 'price_asc'; break;
+        case 'avaliacao': ordem = 'rating'; break;
+        case 'vendidos': ordem = 'sales'; break;
+        case 'custo': ordem = 'relevancy'; break;
+        default: ordem = 'relevancy';
+      }
+
+      const url = `https://shopee.com.br/search?keyword=${encodeURIComponent(termo)}&sortBy=${ordem}&affiliate_id=${AFILIADO}`;
+      window.open(url, '_blank');
+    }
+  </script>
+</body>
+</html>
