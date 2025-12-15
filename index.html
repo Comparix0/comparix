@@ -1,70 +1,88 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<!DOCTYPE html><html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>COMPARIX | Compare preços na Shopee</title>
-  <meta name="description" content="Compare preços na Shopee com filtros oficiais. Encontre as melhores ofertas de forma rápida e segura." />
-
-  <style>
+  <meta name="description" content="Compare preços na Shopee usando filtros oficiais. Escolha o produto, selecione o filtro e encontre a melhor oferta." />  <style>
     * { box-sizing: border-box; font-family: Arial, Helvetica, sans-serif; }
     body { margin: 0; background: #f5f5f5; color: #222; }
 
-    header { background: #ee4d2d; padding: 15px 20px; }
+    header { background: #ee4d2d; padding: 16px 20px; }
     header h1 { color: #fff; margin: 0; font-size: 26px; }
 
-    .search-bar { max-width: 1000px; margin: 20px auto; padding: 0 20px; display: flex; gap: 10px; }
-    .search-bar input { flex: 1; padding: 15px; font-size: 16px; border-radius: 4px; border: 1px solid #ccc; }
-    .search-bar button { padding: 15px 25px; border: none; background: #ee4d2d; color: #fff; font-size: 16px; cursor: pointer; border-radius: 4px; }
+    .container { max-width: 1100px; margin: 20px auto; padding: 0 20px; }
 
-    .categories { max-width: 1000px; margin: 10px auto 30px; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; }
-    .cat { background: #fff; padding: 20px; text-align: center; border-radius: 8px; cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,.1); }
-    .cat:hover { transform: translateY(-2px); }
+    .search-box { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+    .search-row { display: flex; gap: 10px; }
+    .search-row input { flex: 1; padding: 15px; font-size: 16px; border-radius: 4px; border: 1px solid #ccc; }
+    .search-row button { padding: 15px 25px; border: none; background: #ee4d2d; color: #fff; font-size: 16px; cursor: pointer; border-radius: 4px; opacity: .5; }
+    .search-row button.enabled { opacity: 1; cursor: pointer; }
 
-    .filters { max-width: 1000px; margin: 0 auto 30px; padding: 0 20px; display: flex; gap: 10px; flex-wrap: wrap; }
-    .filters button { padding: 10px 15px; border-radius: 20px; border: 1px solid #ddd; background: #fff; cursor: pointer; }
-    .filters button:hover { border-color: #ee4d2d; color: #ee4d2d; }
+    .filters { margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap; }
+    .filters button { padding: 10px 16px; border-radius: 20px; border: 1px solid #ddd; background: #fff; cursor: pointer; }
+    .filters button.active { border-color: #ee4d2d; color: #ee4d2d; font-weight: bold; }
 
-    footer { margin-top: 60px; padding: 20px; text-align: center; font-size: 13px; color: #666; }
-  </style>
-</head>
-<body>
+    h2 { margin: 40px 0 20px; font-size: 22px; }
 
-<header>
+    .categories { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 20px; }
+    .cat { background: #fff; border-radius: 10px; padding: 20px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,.1); cursor: pointer; transition: transform .2s; }
+    .cat:hover { transform: translateY(-5px); }
+    .cat img { width: 80px; height: 80px; object-fit: contain; margin-bottom: 10px; }
+
+    .hero { margin-top: 40px; background: linear-gradient(135deg,#ee4d2d,#ff7a59); border-radius: 16px; padding: 40px; color: #fff; display: flex; align-items: center; gap: 30px; }
+    .hero img { width: 220px; animation: float 3s ease-in-out infinite; }
+    @keyframes float { 0%{transform:translateY(0)} 50%{transform:translateY(-10px)} 100%{transform:translateY(0)} }
+
+    footer { margin: 60px 0 20px; text-align: center; font-size: 13px; color: #666; }
+  </style></head>
+<body><header>
   <h1>COMPARIX</h1>
-</header>
-
-<div class="search-bar">
-  <input id="searchInput" type="text" placeholder="O que você está procurando hoje?" />
-  <button onclick="buscar('relevancia')">Buscar</button>
+</header><div class="container">  <div class="search-box">
+    <div class="search-row">
+      <input id="searchInput" type="text" placeholder="Digite o produto ou marca" oninput="validarBusca()" />
+      <button id="btnBuscar" onclick="buscar()">Buscar</button>
+    </div><div class="filters">
+  <button onclick="selecionarFiltro(this,'relevancia')">Relevância</button>
+  <button onclick="selecionarFiltro(this,'menor')">Menor preço</button>
+  <button onclick="selecionarFiltro(this,'maior')">Maior preço</button>
+  <button onclick="selecionarFiltro(this,'avaliacao')">Avaliação</button>
+  <button onclick="selecionarFiltro(this,'vendidos')">Mais vendidos</button>
 </div>
 
-<div class="categories">
-  <div class="cat" onclick="buscarCategoria('Relógio')">🕒 Relógios</div>
-  <div class="cat" onclick="buscarCategoria('Celular')">📱 Celulares</div>
-  <div class="cat" onclick="buscarCategoria('Fone Bluetooth')">🎧 Fones</div>
-  <div class="cat" onclick="buscarCategoria('Tênis')">👟 Tênis</div>
-  <div class="cat" onclick="buscarCategoria('Eletrodomésticos')">🍳 Eletro</div>
-</div>
-
-<div class="filters">
-  <button onclick="buscar('relevancia')">Relevância</button>
-  <button onclick="buscar('menor')">Menor preço</button>
-  <button onclick="buscar('maior')">Maior preço</button>
-  <button onclick="buscar('avaliacao')">Avaliação</button>
-  <button onclick="buscar('vendidos')">Mais vendidos</button>
-</div>
-
-<footer>
+  </div>  <h2>Busque por categoria</h2>
+  <div class="categories">
+    <div class="cat" onclick="buscarCategoria('Celulares e Smartphones')"><img src="https://cdn-icons-png.flaticon.com/512/545/545245.png"/>Celulares</div>
+    <div class="cat" onclick="buscarCategoria('Relógios')"><img src="https://cdn-icons-png.flaticon.com/512/2972/2972185.png"/>Relógios</div>
+    <div class="cat" onclick="buscarCategoria('Fones de Ouvido')"><img src="https://cdn-icons-png.flaticon.com/512/1048/1048953.png"/>Fones</div>
+    <div class="cat" onclick="buscarCategoria('Calçados')"><img src="https://cdn-icons-png.flaticon.com/512/3063/3063822.png"/>Calçados</div>
+    <div class="cat" onclick="buscarCategoria('Eletrodomésticos')"><img src="https://cdn-icons-png.flaticon.com/512/2933/2933884.png"/>Eletro</div>
+  </div>  <div class="hero">
+    <div>
+      <h2>Compare antes de comprar</h2>
+      <p>Encontre os produtos mais relevantes, bem avaliados e com melhor preço direto na Shopee.</p>
+    </div>
+    <img src="https://cdn-icons-png.flaticon.com/512/891/891462.png" />
+  </div></div><footer>
   O COMPARIX participa do Programa de Afiliados da Shopee. Ao clicar nos links e realizar uma compra, podemos receber uma comissão sem custo adicional para você.
-</footer>
-
-<script>
+</footer><script>
   const AFILIADO = '18352050218';
+  let filtroSelecionado = null;
+
+  function selecionarFiltro(el, tipo) {
+    document.querySelectorAll('.filters button').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    filtroSelecionado = tipo;
+    validarBusca();
+  }
+
+  function validarBusca() {
+    const termo = document.getElementById('searchInput').value.trim();
+    const btn = document.getElementById('btnBuscar');
+    if (termo && filtroSelecionado) btn.classList.add('enabled'); else btn.classList.remove('enabled');
+  }
 
   function montarURL(termo, tipo) {
     let url = 'https://shopee.com.br/search?keyword=' + encodeURIComponent(termo);
-
     switch (tipo) {
       case 'menor': url += '&sortBy=price&order=asc'; break;
       case 'maior': url += '&sortBy=price&order=desc'; break;
@@ -72,21 +90,18 @@
       case 'vendidos': url += '&sortBy=sales'; break;
       default: url += '&sortBy=relevancy';
     }
-
     return url + '&affiliate=' + AFILIADO;
   }
 
-  function buscar(tipo) {
+  function buscar() {
+    if (!filtroSelecionado) return alert('Selecione um filtro');
     const termo = document.getElementById('searchInput').value.trim();
-    if (!termo) return alert('Digite o que deseja buscar');
-    window.open(montarURL(termo, tipo), '_blank');
+    if (!termo) return alert('Digite o produto');
+    window.open(montarURL(termo, filtroSelecionado), '_blank');
   }
 
   function buscarCategoria(cat) {
-    document.getElementById('searchInput').value = cat;
     window.open(montarURL(cat, 'relevancia'), '_blank');
   }
-</script>
-
-</body>
+</script></body>
 </html>
