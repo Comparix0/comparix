@@ -2,165 +2,165 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Comparix — Compare preços antes de comprar</title>
-  <style>
+  <title>Comparix — Compare preços antes de comprar</title>  <style>
     :root {
       --primary: #ee4d2d;
       --bg: #f6f6f6;
       --text: #333;
       --muted: #777;
       --card: #ffffff;
-    }* { box-sizing: border-box; margin: 0; padding: 0; }
+    }
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-}
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-header {
-  background: var(--primary);
-  color: #fff;
-  padding: 20px;
-  text-align: center;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
 
-header h1 {
-  font-size: 2rem;
-  font-weight: bold;
-}
+    header {
+      background: var(--primary);
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
 
-.subtitle {
-  margin-top: 8px;
-  font-size: 0.95rem;
-  opacity: 0.95;
-}
+    header h1 {
+      font-size: 2rem;
+      font-weight: bold;
+    }
 
-.container {
-  max-width: 1100px;
-  margin: auto;
-  padding: 20px;
-}
+    .subtitle {
+      margin-top: 8px;
+      font-size: 0.95rem;
+      opacity: 0.95;
+    }
 
-.search-box {
-  background: var(--card);
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  margin-top: 20px;
-}
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 20px;
+    }
 
-.search-box input {
-  width: 100%;
-  padding: 14px;
-  font-size: 1rem;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  margin-bottom: 12px;
-}
+    .search-box {
+      background: var(--card);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      margin-top: 20px;
+    }
 
-.filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 15px;
-  justify-content: center;
-}
+    .search-box input {
+      width: 100%;
+      padding: 14px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      margin-bottom: 12px;
+    }
 
-.filter {
-  padding: 8px 14px;
-  border-radius: 20px;
-  border: 1px solid var(--primary);
-  color: var(--primary);
-  cursor: pointer;
-  font-size: 0.85rem;
-  background: #fff;
-  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
-}
+    /* FILTROS */
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
 
-.filter:active {
-  transform: scale(0.96);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-}
+    .filter {
+      padding: 8px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--primary);
+      color: var(--primary);
+      cursor: pointer;
+      font-size: 0.85rem;
+      background: #fff;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+    }
 
-.filter.active {
-  background: var(--primary);
-  color: #fff;
-}
+    .filter.active {
+      background: var(--primary);
+      color: #fff;
+    }
 
-.search-box button {
-  width: 100%;
-  padding: 14px;
-  background: var(--primary);
-  color: #fff;
-  font-size: 1rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  opacity: 0.5;
-}
+    .filter:active {
+      transform: scale(0.96);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
 
-.search-box button.enabled {
-  opacity: 1;
-}
+    .search-box button {
+      width: 100%;
+      padding: 14px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      opacity: 0.5;
+    }
 
-h2.section-title {
-  margin: 30px 0 15px;
-  font-size: 1.2rem;
-}
+    .search-box button.enabled {
+      opacity: 1;
+    }
 
-.niches {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 15px;
-}
+    h2.section-title {
+      margin: 30px 0 15px;
+      font-size: 1.2rem;
+    }
 
-.niche {
-  background: var(--card);
-  padding: 20px 10px;
-  border-radius: 10px;
-  text-align: center;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-  cursor: pointer;
-  transition: transform 0.2s;
-}
+    .niches {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 15px;
+    }
 
-.niche:hover {
-  transform: translateY(-4px);
-}
+    .niche {
+      background: var(--card);
+      padding: 20px 10px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
 
-.niche span {
-  display: block;
-  margin-top: 8px;
-  font-size: 0.9rem;
-  font-weight: bold;
-}
+    .niche:hover {
+      transform: translateY(-4px);
+    }
 
-footer {
-  background: #fff;
-  margin-top: 40px;
-  padding: 25px 20px;
-  text-align: center;
-  border-top: 1px solid #ddd;
-}
+    .niche span {
+      display: block;
+      margin-top: 8px;
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
 
-footer h3 {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-}
+    footer {
+      background: #fff;
+      margin-top: 40px;
+      padding: 25px 20px;
+      text-align: center;
+      border-top: 1px solid #ddd;
+    }
 
-footer p {
-  font-size: 0.9rem;
-  color: var(--muted);
-  max-width: 700px;
-  margin: auto;
-}
+    footer h3 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
 
-  </style>
-</head>
+    footer p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      max-width: 700px;
+      margin: auto;
+    }
+  </style></head>
 <body><header>
   <h1>COMPARIX</h1>
   <div class="subtitle">Compare preços reais direto da Shopee e encontre a melhor oferta antes de comprar</div>
@@ -171,16 +171,6 @@ footer p {
   <div class="filter" data-sort="sales">Mais vendidos</div>
   <div class="filter" data-sort="price_asc">Menor preço</div>
   <div class="filter" data-sort="price_desc">Maior preço</div>
-</div>
-  <div class="filter" data-sort="rating">Melhores avaliados</div>
-  <div class="filter" data-sort="sales">Mais vendidos</div>
-  <div class="filter" data-sort="price_asc">Menor preço</div>
-  <div class="filter" data-sort="price_desc">Maior preço</div>
-</div>
-  <div class="filter" data-sort="price_asc">Menor preço</div>
-  <div class="filter" data-sort="price_desc">Maior preço</div>
-  <div class="filter" data-sort="rating">Melhores avaliados</div>
-  <div class="filter" data-sort="sales">Mais vendidos</div>
 </div>
 
 <button id="searchBtn">Buscar na Shopee</button>
@@ -198,16 +188,17 @@ footer p {
   <h3>Compre com mais segurança</h3>
   <p>O Comparix é uma página independente criada para ajudar você a encontrar o melhor preço e os produtos mais bem avaliados da Shopee, de forma rápida, clara e sem complicação.</p>
 </footer><script>
-  const filters = document.querySelectorAll('.filter');('.filter');
-  const searchBtn = document.getElementById('searchBtn');
   const searchInput = document.getElementById('searchInput');
+  const searchBtn = document.getElementById('searchBtn');
+  const filters = document.querySelectorAll('.filter');
+
   let selectedFilter = null;
 
-  filters.forEach(f => {
-    f.addEventListener('click', () => {
-      filters.forEach(x => x.classList.remove('active'));
-      f.classList.add('active');
-      selectedFilter = f.dataset.sort;
+  filters.forEach(filter => {
+    filter.addEventListener('click', () => {
+      filters.forEach(f => f.classList.remove('active'));
+      filter.classList.add('active');
+      selectedFilter = filter.dataset.sort;
       validate();
     });
   });
@@ -224,7 +215,8 @@ footer p {
 
   searchBtn.addEventListener('click', () => {
     if (!searchBtn.classList.contains('enabled')) return;
-    const q = encodeURIComponent(searchInput.value);
+
+    const q = encodeURIComponent(searchInput.value.trim());
     const url = `https://shopee.com.br/search?keyword=${q}&sortBy=${selectedFilter}&affiliateId=18352050218`;
     window.open(url, '_blank');
   });
