@@ -1,4 +1,4 @@
-  <!DOCTYPE html><html lang="pt-BR">
+<!DOCTYPE html><html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -172,6 +172,11 @@ footer p {
   <div class="filter" data-sort="price_asc">Menor preço</div>
   <div class="filter" data-sort="price_desc">Maior preço</div>
 </div>
+  <div class="filter" data-sort="rating">Melhores avaliados</div>
+  <div class="filter" data-sort="sales">Mais vendidos</div>
+  <div class="filter" data-sort="price_asc">Menor preço</div>
+  <div class="filter" data-sort="price_desc">Maior preço</div>
+</div>
   <div class="filter" data-sort="price_asc">Menor preço</div>
   <div class="filter" data-sort="price_desc">Maior preço</div>
   <div class="filter" data-sort="rating">Melhores avaliados</div>
@@ -193,7 +198,7 @@ footer p {
   <h3>Compre com mais segurança</h3>
   <p>O Comparix é uma página independente criada para ajudar você a encontrar o melhor preço e os produtos mais bem avaliados da Shopee, de forma rápida, clara e sem complicação.</p>
 </footer><script>
-  const filters = document.querySelectorAll('.filter');
+  const filters = document.querySelectorAll('.filter');('.filter');
   const searchBtn = document.getElementById('searchBtn');
   const searchInput = document.getElementById('searchInput');
   let selectedFilter = null;
@@ -230,4 +235,4 @@ footer p {
     window.open(url, '_blank');
   }
 </script></body>
-  </html>
+</html>
