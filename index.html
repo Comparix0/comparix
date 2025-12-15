@@ -67,6 +67,7 @@ header h1 {
   flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 15px;
+  justify-content: center;
 }
 
 .filter {
@@ -77,7 +78,12 @@ header h1 {
   cursor: pointer;
   font-size: 0.85rem;
   background: #fff;
-  transition: all 0.2s;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+}
+
+.filter:active {
+  transform: scale(0.96);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 
 .filter.active {
@@ -161,6 +167,11 @@ footer p {
 </header><div class="container">  <div class="search-box">
     <input type="text" id="searchInput" placeholder="Digite o nome do produto (ex: Relógio Patek Philippe)" /><div class="filters" id="filters">
   <div class="filter" data-sort="relevancy">Relevância</div>
+  <div class="filter" data-sort="rating">Melhores avaliados</div>
+  <div class="filter" data-sort="sales">Mais vendidos</div>
+  <div class="filter" data-sort="price_asc">Menor preço</div>
+  <div class="filter" data-sort="price_desc">Maior preço</div>
+</div>
   <div class="filter" data-sort="price_asc">Menor preço</div>
   <div class="filter" data-sort="price_desc">Maior preço</div>
   <div class="filter" data-sort="rating">Melhores avaliados</div>
